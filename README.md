@@ -1,2 +1,1 @@
-# mediquo-web-sdk
-MediQuo web widget
+# MediQuo Web SDK
