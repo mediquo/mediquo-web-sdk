@@ -10,13 +10,11 @@ Welcome to MediQuo SDK for web, the easiest way to integrate the MediQuo functio
 
 ## Overview
 
-The MediQuo Web SDK provides a seamless way to integrate our features into your app through a WebView. This SDK supports [list the supported platforms or technologies, e.g., React, Angular, vanilla JavaScript].
+Our Widget provides a seamless way to integrate our features into your app, allowing to embed the chat and video call functionalities in a simple and straightforward way. The SDK is available for Flutter applications and can be used in native applications as well by embedding a WebView.
 
-## Setting up
+## Flutter apps
 
-We currently provide an SDK for Flutter based applications. In case of native applications, you can get it working by using the WebView API supported on your platform. To get started, follow the instructions accordingly.
-
-## Flutter applications
+We provide a flutter SDK that you can use to integrate the MediQuo widget into your app so you don't have to worry about the WebView implementation. Follow the instructions below to set it up.
 
 1. Install the package:
 
@@ -56,11 +54,11 @@ return const MediquoWidget(
 );
 ```
 
-## Non-Flutter applications
+## Native apps
 
 Open the following URL in a WebView:
 
-`https://widget.dev.mediquo.com/integration/native.html?api_key=YOUR_API_KEY&token=YOUR_TOKEN&platform=TARGET_PLATFORM&environment=ENVIRONMENT`
+`https://widget.mediquo.com/integration/native.html?api_key=YOUR_API_KEY&token=YOUR_TOKEN&platform=TARGET_PLATFORM&environment=ENVIRONMENT`
 
 Replace the following placeholders:
 
@@ -100,6 +98,60 @@ window.NativeBridge.postMessage(
 | `mediquo_native_close`    | A close action was made by the user    |
 | `mediquo_native_download` | A download action was made by the user |
 
-### Permissions
+> [!IMPORTANT]  
+> In case the user requests for permissions (like microphone or camera), it is possible to handle it on the WebView side. Refer to your platform documentation to understand how to handle request permissions on a WebView.
 
-In case the user requests for permissions (like microphone or camera), it is possible to handle it on the WebView side. Refer to your platform documentation to understand how to handle request permissions on a WebView.
+## Web apps
+
+Copy the snippet below and replace the placeholders with your own configuration:
+
+Within the `<head>` tag:
+
+```html
+<script
+  type="text/javascript"
+  src="https://widget.mediquo.com/js/1.0.0/mediquo.js"
+></script>
+```
+
+Then, `MediquoWidget` will be available in the global scope. Use it like this:
+
+```html
+<script>
+  window.onload = () => {
+    MediquoWidget.init({
+      apiKey: "YOUR_API_KEY",
+      accessToken: "YOUR_TOKEN",
+      // Make sure you specify adapter as "web"
+      adapter: "web",
+      theme: {
+        launcher: "base",
+        position: "right",
+        colors: {
+          primary: "#a91e90",
+          primaryContrast: "#ffffff",
+          secondary: "#3c50ec",
+          accent: "#42cece",
+          messageTextOutgoing: "#201552",
+          messageTextIncoming: "#201552",
+          bubbleBackgroundOutgoing: "#eceff1",
+          bubbleBackgroundIncoming: "#e7e3f1",
+          alertText: "#201552",
+          alertBackground: "#e7e3f1",
+        },
+      },
+      immediateVideoCall: true,
+      mute: true,
+      // "production" -> for production usage
+      environment: "sandbox",
+    }).then(({ hasActiveSession, pendingConsultations }) => {
+      console.log("Launched successfully", {
+        hasActiveSession,
+        pendingConsultations,
+      });
+    });
+  };
+</script>
+```
+
+For web apps no events nor permissions are sent as everything is handled directly in the browser.
