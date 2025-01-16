@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      type="text/javascript"
+      src="https://widget.mediquo.com/js/1.0.0/mediquo.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      window.onload = () => {
+        MediquoWidget.init({
+          apiKey: "YOUR_API_KEY",
+          accessToken: "YOUR_TOKEN",
+          // Make sure you specify adapter as "web"
+          adapter: "web",
+          theme: {
+            launcher: "base",
+            position: "right",
+            colors: {
+              primary: "#a91e90",
+              primaryContrast: "#ffffff",
+              secondary: "#3c50ec",
+              accent: "#42cece",
+              messageTextOutgoing: "#201552",
+              messageTextIncoming: "#201552",
+              bubbleBackgroundOutgoing: "#eceff1",
+              bubbleBackgroundIncoming: "#e7e3f1",
+              alertText: "#201552",
+              alertBackground: "#e7e3f1",
+            },
+          },
+          immediateVideoCall: true,
+          mute: true,
+          // "production" -> for production usage
+          environment: "sandbox",
+        }).then(({ hasActiveSession, pendingConsultations }) => {
+          console.log("Launched successfully", {
+            hasActiveSession,
+            pendingConsultations,
+          });
+        });
+      };
+    </script>
+  </body>
+</html>
